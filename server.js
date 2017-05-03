@@ -41,32 +41,39 @@ mockData = { // for testing only, remove after connection to database
         date: 0,
         item: "Squash",
         company: "Seed Savers",
+        quantity: 5
+
     }, {
         category: "seeds",
         date: 0,
         item: "Beans",
-        company: "Seeds of Change"
+        company: "Seeds of Change",
+        // quantity: "test"
     }, {
         category: "seeds",
         date: 0,
         item: "Corn",
-        company: "Burpee"
+        company: "Burpee",
+        price: 3.99
     }],
     soil: [{
         category: "soil",
         date: 0,
         item: "Compost",
-        company: "Home Depot"
+        company: "Home Depot",
+        // price: "3.99"
     }, {
         category: "soil",
         date: 0,
         item: "Soil",
-        company: "Lowe's"
+        company: "Lowe's",
+        tags: ["Certified Organic"]
     }, {
         category: "soil",
         date: 0,
         item: "Fertilizer",
-        company: "Dr. Earth"
+        company: "Dr. Earth",
+        // tags: "Certified Organic"
     }]
 }
 
