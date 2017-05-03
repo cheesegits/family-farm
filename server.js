@@ -36,8 +36,38 @@ app.use('/src', express.static('public'));
 app.listen(8080);
 
 mockData = {
-    seeds: [{}, {}, {}],
-    soil: [{}, {}, {}]
+    seeds: [{
+        category: 0,
+        date: 0,
+        item: 0,
+        company: 0,
+    }, {
+        category: 0,
+        date: 0,
+        item: 0,
+        company: 0,
+    }, {
+        category: 0,
+        date: 0,
+        item: 0,
+        company: 0,
+    }],
+    soil: [{
+        category: 0,
+        date: 0,
+        item: 0,
+        company: 0,
+    }, {
+        category: 0,
+        date: 0,
+        item: 0,
+        company: 0,
+    }, {
+        category: 0,
+        date: 0,
+        item: 0,
+        company: 0,
+    }]
 }
 
 // retrieve schema
