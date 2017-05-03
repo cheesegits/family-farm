@@ -94,7 +94,7 @@ describe('Receipts', function() {
             .post('/receipts')
             .send({
                 category: "seeds",
-                date: date,
+                date: "2017-05-03T17:53:27.865Z",
                 item: "Bell Peppers",
                 company: "Seeds of Change",
                 quantity: 12345
@@ -103,8 +103,11 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body.seeds).to.be.greaterThan(3);
+                expect(response.body.seeds).length.greaterThan(3);
+                expect(response.body.seeds[3].date).to.be.a.dateString();
+                expect(response.body.seeds[3].quantity).to.equal(12345);
                 // when testing mongoDB make sure to return and save recently created object /id
+                done();
             });
     });
     it('on PUT - the recently added object was successfully modified in the mockData Seeds array', function(done) {

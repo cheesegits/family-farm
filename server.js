@@ -90,7 +90,11 @@ function date() { // for testing only, remove after a datepicker box is added to
 
 // CRUD operations
 // CREATE a new receipt in the database
-//app.post();
+app.post('/receipts', function(request, response) {
+    var category = request.body.category;
+    mockData[category].push(request.body);
+    response.status(200).json(mockData);
+});
 
 // READ the receipt(s) in the database
 app.get('/receipts', function(request, response) {
