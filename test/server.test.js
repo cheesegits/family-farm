@@ -29,8 +29,8 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body).length.to.be.greaterThan(0);
                 for (var key in response.body) {
+                    expect(response.body[key]).length.greaterThan(0);
                     for (i = 0; i < response.body[key].length; i++) {
                         expect(response.body[key][i]).to.have.property("category");
                         expect(response.body[key][i]).to.have.property("date");
@@ -49,8 +49,8 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body).length.to.be.greaterThan(0);
                 for (var key in response.body) {
+                    expect(response.body[key]).length.greaterThan(0);
                     for (i = 0; i < response.body[key].length; i++) {
                         expect(response.body[key][i].category).to.be.a("string");
                         expect(response.body[key][i].date).to.be.a("date");
@@ -69,8 +69,8 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body).length.to.be.greaterThan(0);
                 for (var key in response.body) {
+                    expect(response.body[key]).length.greaterThan(0);
                     for (i = 0; i < response.body[key].length; i++) {
                         if (response.body[key][i].hasOwnProperty("quantity")) {
                             expect(response.body[key][i].quantity).to.be.a("number");
