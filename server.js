@@ -10,29 +10,31 @@ var config = require('./config');
 app.use(jsonParser);
 app.use('/src', express.static('public'));
 
-// connection to database
-var runServer = function(callback) {
-    mongoose.connect(config.DATABASE_URL, function(err) {
-        if (err && callback) {
-            return callback(err);
-        }
-        app.listen(config.PORT, function() {
-            console.log('Listening on localhost:' + config.PORT);
-            if (callback) {
-                callback();
-            }
-        });
-    });
-}
+// // connection to database
+// var runServer = function(callback) {
+//     mongoose.connect(config.DATABASE_URL, function(err) {
+//         if (err && callback) {
+//             return callback(err);
+//         }
+//         app.listen(config.PORT, function() {
+//             console.log('Listening on localhost:' + config.PORT);
+//             if (callback) {
+//                 callback();
+//             }
+//         });
+//     });
+// }
 
-if (require.main === module) {
-    runServer(function(err) {
-        if (err) {
-            console.error(err);
-        }
-    });
-}
+// if (require.main === module) {
+//     runServer(function(err) {
+//         if (err) {
+//             console.error(err);
+//         }
+//     });
+// }
 
+
+app.listen(8080);
 
 // retrieve schema
 // var receiptSchema = require ('./models/receiptSchema');
@@ -53,6 +55,6 @@ if (require.main === module) {
 //app.use();
 
 
-// exports
-exports.app = app;
-exports.runServer = runServer;
+// // exports
+// exports.app = app;
+// exports.runServer = runServer;
