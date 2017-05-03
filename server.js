@@ -33,41 +33,49 @@ app.use('/src', express.static('public'));
 //     });
 // }
 
-app.listen(8080);
+app.listen(8080); // for testing only, remove after connection to database
 
-mockData = {
+mockData = { // for testing only, remove after connection to database
     seeds: [{
-        category: 0,
+        category: "seeds",
         date: 0,
-        item: 0,
-        company: 0,
+        item: "Squash",
+        company: "Seed Savers",
     }, {
-        category: 0,
+        category: "seeds",
         date: 0,
-        item: 0,
-        company: 0,
+        item: "Beans",
+        company: "Seeds of Change"
     }, {
-        category: 0,
+        category: "seeds",
         date: 0,
-        item: 0,
-        company: 0,
+        item: "Corn",
+        company: "Burpee"
     }],
     soil: [{
-        category: 0,
+        category: "soil",
         date: 0,
-        item: 0,
-        company: 0,
+        item: "Compost",
+        company: "Home Depot"
     }, {
-        category: 0,
+        category: "soil",
         date: 0,
-        item: 0,
-        company: 0,
+        item: "Soil",
+        company: "Lowe's"
     }, {
-        category: 0,
+        category: "soil",
         date: 0,
-        item: 0,
-        company: 0,
+        item: "Fertilizer",
+        company: "Dr. Earth"
     }]
+}
+
+function date() { // for testing only, remove after a datepicker box is added to form submission 
+    for (var key in mockData) {
+        for (i = 0; i < mockData[key].length; i++) {
+            mockData[key][i].date = new Date();
+        }
+    }
 }
 
 // retrieve schema
@@ -79,7 +87,8 @@ mockData = {
 
 // READ the receipt(s) in the database
 app.get('/receipts', function(request, response) {
-    response.status(200).json(mockData);
+    date(); // for testing only, remove after a datepicker box is added to form submission
+    response.status(200).json(mockData); // for testing only, change json to return database
 });
 
 // UPDATE receipt in the database

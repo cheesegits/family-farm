@@ -1,31 +1,32 @@
 {
-    "name": "family-farm-app",
-    "version": "1.0.0",
-    "description": "",
-    "main": "main.js",
-    "scripts": {
-        "start": "lite-server index.html",
-        "watch": "webpack --watch",
-        "test": "mocha"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "chai": "^3.5.0",
-        "chai-http": "^3.0.0",
-        "css-loader": "^0.28.0",
-        "html-loader": "^0.4.5",
-        "less": "^2.7.2",
-        "less-loader": "^4.0.3",
-        "lite-server": "^2.3.0",
-        "mocha": "^3.3.0",
-        "node-sass": "^4.5.2",
-        "sass-loader": "^6.0.3",
-        "style-loader": "^0.16.1",
-        "webpack": "^2.4.1"
-    },
-    "dependencies": {
-        "bootstrap": "^3.3.7",
-        "jquery": "^3.2.1"
-    }
+  "name": "family-farm-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "lite-server index.html",
+    "watch": "webpack --watch",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-date-string": "^0.1.0",
+    "chai-http": "^3.0.0",
+    "css-loader": "^0.28.0",
+    "html-loader": "^0.4.5",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.3",
+    "lite-server": "^2.3.0",
+    "mocha": "^3.3.0",
+    "node-sass": "^4.5.2",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "webpack": "^2.4.1"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
 }

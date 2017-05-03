@@ -1,8 +1,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const chaiDateString = require('chai-date-string');
 const expect = chai.expect;
-chai.use(chaiHttp);
 
+chai.use(chaiHttp);
+chai.use(chaiDateString);
 
 describe('Receipts', function() {
     it('on GET - the data has been populated with mockData from server.js - status(200)', function(done) {
@@ -53,7 +55,7 @@ describe('Receipts', function() {
                     expect(response.body[key]).length.greaterThan(0);
                     for (i = 0; i < response.body[key].length; i++) {
                         expect(response.body[key][i].category).to.be.a("string");
-                        expect(response.body[key][i].date).to.be.a("date");
+                        expect(response.body[key][i].date).to.be.a.dateString();
                         expect(response.body[key][i].company).to.be.a("string");
                         expect(response.body[key][i].item).to.be.a("string");
                     }
