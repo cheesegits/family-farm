@@ -33,8 +33,12 @@ app.use('/src', express.static('public'));
 //     });
 // }
 
-
 app.listen(8080);
+
+mockData = {
+    seeds: [],
+    soil: []
+}
 
 // retrieve schema
 // var receiptSchema = require ('./models/receiptSchema');
@@ -44,7 +48,9 @@ app.listen(8080);
 //app.post();
 
 // READ the receipt(s) in the database
-//app.get();
+app.get('/receipts', function(request, response) {
+    response.status(200).json(mockData);
+});
 
 // UPDATE receipt in the database
 //app.put();

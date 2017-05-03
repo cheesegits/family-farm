@@ -29,6 +29,7 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
+                expect(response.body).length.to.be.greaterThan(0);
                 for (var key in response.body) {
                     for (i = 0; i < response.body[key].length; i++) {
                         expect(response.body[key][i]).to.have.property("category");
@@ -48,6 +49,7 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
+                expect(response.body).length.to.be.greaterThan(0);
                 for (var key in response.body) {
                     for (i = 0; i < response.body[key].length; i++) {
                         expect(response.body[key][i].category).to.be.a("string");
@@ -67,6 +69,7 @@ describe('Receipts', function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
+                expect(response.body).length.to.be.greaterThan(0);
                 for (var key in response.body) {
                     for (i = 0; i < response.body[key].length; i++) {
                         if (response.body[key][i].hasOwnProperty("quantity")) {
