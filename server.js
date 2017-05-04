@@ -93,23 +93,27 @@ function date() { // for testing only, remove after a datepicker box is added to
 app.post('/receipts', function(request, response) {
     var category = request.body.category;
     mockData[category].push(request.body);
-    response.status(200).json(mockData);
+    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
 });
 
 // READ the receipt(s) in the database
 app.get('/receipts', function(request, response) {
     date(); // for testing only, remove after a datepicker box is added to form submission
-    response.status(200).json(mockData); // for testing only, change json to return database
+    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
 });
 
 // UPDATE receipt in the database
 app.put('/receipts', function(request, response) {
     mockData[request.body.category][request.body.id].quantity = request.body.quantity;
-    response.status(200).json(mockData);
+    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
 });
 
 // DELETE receipt from the database
-//app.delete();
+app.delete('/receipts', function(request, response) {
+    var id = request.body.id;
+    mockData.seeds.splice(id, 1);
+    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
+});
 
 //app.use();
 

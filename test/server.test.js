@@ -131,4 +131,19 @@ describe('Receipts', function() {
                 done();
             });
     });
+    it('on DELETE - the recently added object was successfully deleted in the mockData Seeds array', function(done) {
+        chai
+            .request('http://localhost:8080') // add :id for mongoDB object
+            .delete('/receipts')
+            .send({
+                id: 3
+            })
+            .end(function(error, response) {
+                expect(error).to.be.null;
+                expect(response.status).to.equal(200);
+                expect(response).to.be.json;
+                expect(response.body.seeds).length.to.be(3);
+                done();
+            });
+    });
 });
