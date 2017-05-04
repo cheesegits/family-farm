@@ -112,20 +112,23 @@ describe('Receipts', function() {
     });
     it('on PUT - the recently added object was successfully modified in the mockData Seeds array', function(done) {
         chai
-            .request('http://localhost:8080/:id')
+            .request('http://localhost:8080') // add :id for mongoDB object
             .put('/receipts')
             .send({
                 id: 3, // based on pushing to mockData for development, change to mongoDB id when server is running
+                category: "seeds",
                 quantity: 54321
             })
             .end(function(error, response) {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body.seeds).to.be.greaterThan(3);
-                if (response.body.seeds[3].quantity === 54321) { // when mongoDB is configured, switch to a function that targets the id from the object created by POST above
-                    expect(response.body.seeds[3].quantity).to.equal(54321); // when mongoDB is configured, change expect to target id and to check equality of deep property
+                expect(response.body.seeds).length.greaterThan(3);
+                if (response.body.seeds[3].quantity === 54321) { // when mongoDB is configured, switch to a function that targets the object id created by POST above
+                    expect(response.body.seeds[3].date).to.be.a.dateString(); // when mongoDB is configured, change 3 to object id and to check equality of deep property
+                    expect(response.body.seeds[3].quantity).to.equal(54321); // when mongoDB is configured, change 3 to object id and to check equality of deep property
                 }
+                done();
             });
     });
 });

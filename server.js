@@ -103,7 +103,10 @@ app.get('/receipts', function(request, response) {
 });
 
 // UPDATE receipt in the database
-//app.put();
+app.put('/receipts', function(request, response) {
+    mockData[request.body.category][request.body.id].quantity = request.body.quantity;
+    response.status(200).json(mockData);
+});
 
 // DELETE receipt from the database
 //app.delete();
