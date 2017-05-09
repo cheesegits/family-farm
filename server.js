@@ -10,30 +10,30 @@ var config = require(`./config`);
 app.use(jsonParser);
 app.use(`/src`, express.static(`public`));
 
-// // connection to database
-// var runServer = function(callback) {
-//     mongoose.connect(config.DATABASE_URL, function(err) {
-//         if (err && callback) {
-//             return callback(err);
-//         }
-//         app.listen(config.PORT, function() {
-//             console.log(`Listening on localhost:` + config.PORT);
-//             if (callback) {
-//                 callback();
-//             }
-//         });
-//     });
-// }
+// connection to database
+var runServer = function(callback) {
+    mongoose.connect(config.DATABASE_URL, function(err) {
+        if (err && callback) {
+            return callback(err);
+        }
+        app.listen(config.PORT, function() {
+            console.log(`Listening on localhost:` + config.PORT);
+            if (callback) {
+                callback();
+            }
+        });
+    });
+}
 
-// if (require.main === module) {
-//     runServer(function(err) {
-//         if (err) {
-//             console.error(err);
-//         }
-//     });
-// }
+if (require.main === module) {
+    runServer(function(err) {
+        if (err) {
+            console.error(err);
+        }
+    });
+}
 
-app.listen(8080); // for testing only, remove after connection to database
+// app.listen(8080); // for testing only, remove after connection to database
 
 mockData = { // for testing only, remove after connection to database
     seeds: [{
@@ -42,7 +42,6 @@ mockData = { // for testing only, remove after connection to database
         item: `Squash`,
         company: `Seed Savers`,
         quantity: 5
-
     }, {
         category: `seeds`,
         date: 0,
@@ -86,7 +85,7 @@ function date() { // for testing only, remove after a datepicker box is added to
 }
 
 // retrieve schema
-// var receiptSchema = require (`./models/receiptSchema`);
+var receiptSchema = require(`./src/models/item`);
 
 // CRUD operations
 // CREATE a new receipt in the database
@@ -98,8 +97,14 @@ app.post(`/receipts`, function(request, response) {
 
 // READ the receipt(s) in the database
 app.get(`/receipts`, function(request, response) {
-    date(); // for testing only, remove after a datepicker box is added to form submission
-    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
+    receiptSchema.find(function(err, receipts) {
+        if (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        }
+        response.status(200).json(receipts); // for testing only, change json to return mongoDB objects
+    });
 });
 
 // UPDATE receipt in the database
@@ -115,9 +120,12 @@ app.delete(`/receipts`, function(request, response) {
     response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
 });
 
-//app.use();
-
+app.use('*', function(req, res) {
+    res.status(404).json({
+        message: 'Not Found'
+    });
+});
 
 // // exports
-// exports.app = app;
-// exports.runServer = runServer;
+exports.app = app;
+exports.runServer = runServer;
