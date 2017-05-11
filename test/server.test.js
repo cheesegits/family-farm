@@ -1,17 +1,70 @@
 const chai = require(`chai`);
 const chaiHttp = require(`chai-http`);
 const chaiDateString = require(`chai-date-string`);
-const expect = chai.expect;
+const server = require(`../server.js`);
+const Receipt = require(`../src/models/item`);
 
+const app = server.app;
+
+const expect = chai.expect;
 chai.use(chaiHttp);
 chai.use(chaiDateString);
 
+function date() { // for testing only, remove after a datepicker box is added to form submission 
+    return new Date();
+}
+
 describe(`Receipts`, function() {
-    it(`on GET - the data has been populated with mockData from server.js - status(200)`, function(done) {
+    before(function(done) {
+        server.runServer(function() {
+            Receipt.create({
+                category: `seeds`,
+                date: date(),
+                company: `Seed Savers`,
+                item: `Squash`,
+                quantity: 5
+            });
+            Receipt.create({
+                category: `seeds`,
+                date: date(),
+                company: `Seeds of Change`,
+                item: `Beans`
+            });
+            Receipt.create({
+                category: `seeds`,
+                date: date(),
+                company: `Burpee`,
+                item: `Corn`,
+                price: 3.99
+            });
+            Receipt.create({
+                category: `soil`,
+                date: date(),
+                company: `Home Depot`,
+                item: `Compost`
+            });
+            Receipt.create({
+                category: `soil`,
+                date: date(),
+                company: `Lowe's`,
+                item: `Soil`,
+                tags: [`Certified Organic`]
+            });
+            Receipt.create({
+                category: `soil`,
+                date: date(),
+                company: `Dr. Earth`,
+                item: `Fertilizer`
+            });
+            done();
+        });
+    });
+    it(`on GET - the data has been populated with temporary data from before() within server.test.js`, function(done) {
         chai
-            .request(`http://localhost:8080`)
+            .request(app)
             .get(`/receipts`)
             .end(function(error, response) {
+                console.log(response.body);
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
@@ -25,7 +78,7 @@ describe(`Receipts`, function() {
     });
     it(`on GET - all objects within those arrays have the required keys`, function(done) {
         chai
-            .request(`http://localhost:8080`)
+            .request(app)
             .get(`/receipts`)
             .end(function(error, response) {
                 expect(error).to.be.null;
@@ -45,7 +98,7 @@ describe(`Receipts`, function() {
     });
     it(`on GET - those required keys have the correct type of values`, function(done) {
         chai
-            .request(`http://localhost:8080`)
+            .request(app)
             .get(`/receipts`)
             .end(function(error, response) {
                 expect(error).to.be.null;
@@ -65,7 +118,7 @@ describe(`Receipts`, function() {
     });
     it(`on GET - if any optional key/values were included, they also have correct type of values`, function(done) {
         chai
-            .request(`http://localhost:8080`)
+            .request(app)
             .get(`/receipts`)
             .end(function(error, response) {
                 expect(error).to.be.null;
@@ -90,7 +143,7 @@ describe(`Receipts`, function() {
     });
     it(`on POST - object successfully added to mockData Seeds array`, function(done) {
         chai
-            .request(`http://localhost:8080`)
+            .request(app)
             .post(`/receipts`)
             .send({
                 category: `seeds`,
@@ -112,7 +165,7 @@ describe(`Receipts`, function() {
     });
     it(`on PUT - the recently added object was successfully modified in the mockData Seeds array`, function(done) {
         chai
-            .request(`http://localhost:8080`) // add :id for mongoDB object
+            .request(app) // add :id for mongoDB object
             .put(`/receipts`)
             .send({
                 id: 3, // based on pushing to mockData for development, change to mongoDB id when server is running
@@ -133,7 +186,7 @@ describe(`Receipts`, function() {
     });
     it(`on DELETE - the recently added object was successfully deleted in the mockData Seeds array`, function(done) {
         chai
-            .request(`http://localhost:8080`) // add :id for mongoDB object
+            .request(app) // add :id for mongoDB object
             .delete(`/receipts`)
             .send({
                 id: 3
@@ -145,5 +198,10 @@ describe(`Receipts`, function() {
                 expect(response.body.seeds).length.to.be(3);
                 done();
             });
+    });
+    after(function(done) {
+        Receipt.remove(function() {
+            done();
+        });
     });
 });

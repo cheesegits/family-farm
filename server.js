@@ -33,77 +33,40 @@ if (require.main === module) {
     });
 }
 
-// app.listen(8080); // for testing only, remove after connection to database
-
-mockData = { // for testing only, remove after connection to database
-    seeds: [{
-        category: `seeds`,
-        date: 0,
-        item: `Squash`,
-        company: `Seed Savers`,
-        quantity: 5
-    }, {
-        category: `seeds`,
-        date: 0,
-        item: `Beans`,
-        company: `Seeds of Change`,
-        // quantity: `test`
-    }, {
-        category: `seeds`,
-        date: 0,
-        item: `Corn`,
-        company: `Burpee`,
-        price: 3.99
-    }],
-    soil: [{
-        category: `soil`,
-        date: 0,
-        item: `Compost`,
-        company: `Home Depot`,
-        // price: `3.99`
-    }, {
-        category: `soil`,
-        date: 0,
-        item: `Soil`,
-        company: `Lowe's`,
-        tags: [`Certified Organic`]
-    }, {
-        category: `soil`,
-        date: 0,
-        item: `Fertilizer`,
-        company: `Dr. Earth`,
-        // tags: `Certified Organic`
-    }]
-}
-
-function date() { // for testing only, remove after a datepicker box is added to form submission 
-    for (var key in mockData) {
-        for (i = 0; i < mockData[key].length; i++) {
-            mockData[key][i].date = new Date();
-        }
-    }
-}
-
 // retrieve schema
-var receiptSchema = require(`./src/models/item`);
+var Receipt = require(`./src/models/item`);
 
 // CRUD operations
 // CREATE a new receipt in the database
 app.post(`/receipts`, function(request, response) {
-    var category = request.body.category;
-    mockData[category].push(request.body);
-    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
+    const category = request.body.category;
+    Receipt[category].create({
+        category: request.body.category,
+        date: request.body.date,
+        company: request.body.company,
+        item: request.body.item,
+        quantity: request.body.quantity,
+        price: request.body.price,
+        tags: request.body.tags
+    }, function(error, receipts) {
+        if (error) {
+            return response.status(500).json({
+                message: `Internal Server Error`
+            });
+        }
+        response.status(200).json(receipts);
+    });
 });
 
 // READ the receipt(s) in the database
 app.get(`/receipts`, function(request, response) {
-    receiptSchema.find(function(err, receipts) {
-        if (err) {
-            return res.status(500).json({
+    Receipt.find(function(error, receipts) {
+        if (error) {
+            return response.status(500).json({
                 message: 'Internal Server Error'
             });
         }
-        response.status(200).json(receipts); // for testing only, change json to return mongoDB objects
+        response.status(200).json(receipts);
     });
 });
 
@@ -126,6 +89,6 @@ app.use('*', function(req, res) {
     });
 });
 
-// // exports
+// exports
 exports.app = app;
 exports.runServer = runServer;
