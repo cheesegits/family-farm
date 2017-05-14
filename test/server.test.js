@@ -152,9 +152,8 @@ describe(`Receipts`, function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body.seeds).length.greaterThan(3);
-                expect(response.body.seeds[3].date).to.be.a.dateString();
-                expect(response.body.seeds[3].quantity).to.equal(12345);
+                expect(response.body.date).to.be.a.dateString();
+                expect(response.body.quantity).to.equal(12345);
                 // when testing mongoDB make sure to return and save recently created object /id
                 done();
             });

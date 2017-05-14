@@ -40,7 +40,7 @@ var Receipt = require(`./src/models/item`);
 // CREATE a new receipt in the database
 app.post(`/receipts`, function(request, response) {
     const category = request.body.category;
-    Receipt[category].create({
+    Receipt.create({
         category: request.body.category,
         date: request.body.date,
         company: request.body.company,
