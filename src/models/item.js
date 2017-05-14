@@ -5,8 +5,8 @@ var receiptSchema = new mongoose.Schema({
     date: { type: Date, required: true },
     company: { type: String, required: true },
     item: { type: String, required: true },
-    quantity: { type: String },
-    price: { type: String },
+    quantity: { type: Number },
+    price: { type: Number },
     tags: { type: [String] }
 });
 

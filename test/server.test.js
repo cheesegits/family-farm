@@ -40,6 +40,12 @@ describe(`Receipts`, function() {
             Receipt.create({
                 category: `soil`,
                 date: date(),
+                company: `Lowe's`,
+                item: `Avocado`
+            });
+            Receipt.create({
+                category: `soil`,
+                date: date(),
                 company: `Home Depot`,
                 item: `Compost`
             });
@@ -47,8 +53,8 @@ describe(`Receipts`, function() {
                 category: `soil`,
                 date: date(),
                 company: `Lowe's`,
-                item: `Soil`,
-                tags: [`Certified Organic`]
+                item: `Soil`, // cannot create 6 or 8 objects, but can create 7?
+                tags: [`Certified Organic`] // can immediately add tags
             });
             Receipt.create({
                 category: `soil`,
@@ -64,15 +70,11 @@ describe(`Receipts`, function() {
             .request(app)
             .get(`/receipts`)
             .end(function(error, response) {
-                console.log(response.body);
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body).to.have.all.keys(`seeds`, `soil`);
-                expect(response.body.seeds).to.be.an(`array`);
-                expect(response.body.seeds).length.to.be(3);
-                expect(response.body.soil).to.be.an(`array`);
-                expect(response.body.soil).length.to.be(3);
+                expect(response.body).to.be.an(`array`);
+                expect(response.body).length.to.be(7);
                 done();
             });
     });
@@ -84,14 +86,12 @@ describe(`Receipts`, function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                for (var key in response.body) {
-                    expect(response.body[key]).length.greaterThan(0);
-                    for (i = 0; i < response.body[key].length; i++) {
-                        expect(response.body[key][i]).to.have.property(`category`);
-                        expect(response.body[key][i]).to.have.property(`date`);
-                        expect(response.body[key][i]).to.have.property(`item`);
-                        expect(response.body[key][i]).to.have.property(`company`);
-                    }
+                expect(response.body).length.greaterThan(0);
+                for (i = 0; i < response.body.length; i++) {
+                    expect(response.body[i]).to.have.property(`category`);
+                    expect(response.body[i]).to.have.property(`date`);
+                    expect(response.body[i]).to.have.property(`item`);
+                    expect(response.body[i]).to.have.property(`company`);
                 }
                 done();
             });
@@ -104,14 +104,12 @@ describe(`Receipts`, function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                for (var key in response.body) {
-                    expect(response.body[key]).length.greaterThan(0);
-                    for (i = 0; i < response.body[key].length; i++) {
-                        expect(response.body[key][i].category).to.be.a(`string`);
-                        expect(response.body[key][i].date).to.be.a.dateString();
-                        expect(response.body[key][i].company).to.be.a(`string`);
-                        expect(response.body[key][i].item).to.be.a(`string`);
-                    }
+                expect(response.body).length.greaterThan(0);
+                for (i = 0; i < response.body.length; i++) {
+                    expect(response.body[i].category).to.be.a(`string`);
+                    expect(response.body[i].date).to.be.a.dateString();
+                    expect(response.body[i].company).to.be.a(`string`);
+                    expect(response.body[i].item).to.be.a(`string`);
                 }
                 done();
             });
@@ -124,18 +122,16 @@ describe(`Receipts`, function() {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                for (var key in response.body) {
-                    expect(response.body[key]).length.greaterThan(0);
-                    for (i = 0; i < response.body[key].length; i++) {
-                        if (response.body[key][i].hasOwnProperty(`quantity`)) {
-                            expect(response.body[key][i].quantity).to.be.a(`number`);
-                        };
-                        if (response.body[key][i].hasOwnProperty(`price`)) {
-                            expect(response.body[key][i].price).to.be.a(`number`);
-                        };
-                        if (response.body[key][i].hasOwnProperty(`tags`)) {
-                            expect(response.body[key][i].tags).to.be.an(`array`);
-                        }
+                expect(response.body).length.greaterThan(0);
+                for (i = 0; i < response.body.length; i++) {
+                    if (response.body[i].hasOwnProperty(`quantity`)) {
+                        expect(response.body[i].quantity).to.be.a(`number`);
+                    };
+                    if (response.body[i].hasOwnProperty(`price`)) {
+                        expect(response.body[i].price).to.be.a(`number`);
+                    };
+                    if (response.body[i].hasOwnProperty(`tags`)) {
+                        expect(response.body[i].tags).to.be.an(`array`);
                     }
                 }
                 done();
