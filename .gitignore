@@ -1,4 +1,8 @@
 #ignore folders
 .vscode/
+dev/
 dist/
 node_modules/
+
+#ignore files
+test/.http
