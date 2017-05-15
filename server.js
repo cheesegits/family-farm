@@ -70,10 +70,21 @@ app.get(`/receipts`, function(request, response) {
     });
 });
 
-// UPDATE receipt in the database
-app.put(`/receipts`, function(request, response) {
-    mockData[request.body.category][request.body.id].quantity = request.body.quantity;
-    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
+// UPDATE a receipt in the database
+app.put(`/receipts/:id`, function(request, response) {
+    var updateData = {}
+    for (var key in request.body) {
+        updateData[key] = request.body[key];
+    }
+    Receipt.findOneAndUpdate({ '_id': request.params.id }, updateData, { new: true },
+        function(error, receipt) {
+            if (error) {
+                return response.status(500).json({
+                    message: 'Internal Error'
+                });
+            }
+            response.status(200).json(receipt);
+        });
 });
 
 // DELETE receipt from the database

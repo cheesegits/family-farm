@@ -10,6 +10,8 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 chai.use(chaiDateString);
 
+var postId = 'id';
+
 function date() { // for testing only, remove after a datepicker box is added to form submission 
     return new Date();
 }
@@ -65,7 +67,7 @@ describe(`Receipts`, function() {
             done();
         });
     });
-    it(`on GET - the data has been populated with temporary data from before() within server.test.js`, function(done) {
+    it(`on GET - the data has been populated with temporary documents from before() within server.test.js`, function(done) {
         chai
             .request(app)
             .get(`/receipts`)
@@ -78,7 +80,7 @@ describe(`Receipts`, function() {
                 done();
             });
     });
-    it(`on GET - all objects within those arrays have the required keys`, function(done) {
+    it(`on GET - all documents in the database have their required keys`, function(done) {
         chai
             .request(app)
             .get(`/receipts`)
@@ -137,7 +139,7 @@ describe(`Receipts`, function() {
                 done();
             });
     });
-    it(`on POST - object successfully added to mockData Seeds array`, function(done) {
+    it(`on POST - a test document was successfully added to the database`, function(done) {
         chai
             .request(app)
             .post(`/receipts`)
@@ -154,28 +156,24 @@ describe(`Receipts`, function() {
                 expect(response).to.be.json;
                 expect(response.body.date).to.be.a.dateString();
                 expect(response.body.quantity).to.equal(12345);
-                // when testing mongoDB make sure to return and save recently created object /id
+                postId = response.body._id;
                 done();
             });
     });
-    it(`on PUT - the recently added object was successfully modified in the mockData Seeds array`, function(done) {
+    it(`on PUT - the test document was successfully modified`, function(done) {
         chai
-            .request(app) // add :id for mongoDB object
-            .put(`/receipts`)
+            .request(app)
+            .put(`/receipts/` + postId)
             .send({
-                id: 3, // based on pushing to mockData for development, change to mongoDB id when server is running
-                category: `seeds`,
+                _id: postId,
                 quantity: 54321
             })
             .end(function(error, response) {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body.seeds).length.greaterThan(3);
-                if (response.body.seeds[3].quantity === 54321) { // when mongoDB is configured, switch to a function that targets the object id created by POST above
-                    expect(response.body.seeds[3].date).to.be.a.dateString(); // when mongoDB is configured, change 3 to object id and to check equality of deep property
-                    expect(response.body.seeds[3].quantity).to.equal(54321); // when mongoDB is configured, change 3 to object id and to check equality of deep property
-                }
+                expect(response.body._id).to.equal(postId);
+                expect(response.body.quantity).to.equal(54321);
                 done();
             });
     });
