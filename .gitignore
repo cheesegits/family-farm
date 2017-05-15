@@ -3,6 +3,9 @@
 dev/
 dist/
 node_modules/
+<<<<<<< Updated upstream
 
 #ignore files
+=======
+>>>>>>> Stashed changes
 test/.http
