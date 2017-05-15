@@ -12,7 +12,7 @@ chai.use(chaiDateString);
 
 var postId = 'id';
 
-function date() { // for testing only, remove after a datepicker box is added to form submission 
+function date() {
     return new Date();
 }
 
@@ -139,7 +139,7 @@ describe(`Receipts`, function() {
                 done();
             });
     });
-    it(`on POST - a test document was successfully added to the database`, function(done) {
+    it(`on POST - a document was successfully POSTed to the database`, function(done) {
         chai
             .request(app)
             .post(`/receipts`)
@@ -160,7 +160,7 @@ describe(`Receipts`, function() {
                 done();
             });
     });
-    it(`on PUT - the test document was successfully modified`, function(done) {
+    it(`on PUT - the POST document was successfully updated`, function(done) {
         chai
             .request(app)
             .put(`/receipts/` + postId)
@@ -177,18 +177,17 @@ describe(`Receipts`, function() {
                 done();
             });
     });
-    it(`on DELETE - the recently added object was successfully deleted in the mockData Seeds array`, function(done) {
+    it(`on DELETE - the POST document was successfully deleted`, function(done) {
         chai
-            .request(app) // add :id for mongoDB object
-            .delete(`/receipts`)
-            .send({
-                id: 3
-            })
+            .request(app)
+            .delete(`/receipts/` + postId)
+            .send()
             .end(function(error, response) {
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
-                expect(response.body.seeds).length.to.be(3);
+                expect(response.body._id).to.equal(postId);
+                expect(response.body.quantity).to.equal(54321);
                 done();
             });
     });

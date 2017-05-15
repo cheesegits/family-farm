@@ -88,10 +88,15 @@ app.put(`/receipts/:id`, function(request, response) {
 });
 
 // DELETE receipt from the database
-app.delete(`/receipts`, function(request, response) {
-    var id = request.body.id;
-    mockData.seeds.splice(id, 1);
-    response.status(200).json(mockData); // for testing only, change json to return mongoDB objects
+app.delete(`/receipts/:id`, function(request, response) {
+    Receipt.findOneAndRemove({ '_id': request.params.id }, function(error, receipt) {
+        if (error) {
+            return response.status(500).json({
+                message: 'Internal Server Error'
+            });
+        }
+        response.status(200).json(receipt);
+    });
 });
 
 app.use('*', function(req, res) {
