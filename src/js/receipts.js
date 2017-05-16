@@ -1,7 +1,7 @@
-var $ = require('jquery');
-var $new_receipt = require('./templates/receipts-newReceiptForm');
-var $receipts_template = require('./templates/receipts-pageTemplate');
-var $table_template = require('./templates/receipts-tableOfReceipts');
+var $ = require(`jquery`);
+var $new_receipt = require(`./templates/receipts-newReceiptForm`);
+var $receipts_template = require(`./templates/receipts-pageTemplate`);
+var $table_template = require(`./templates/receipts-tableOfReceipts`);
 
 var receipts = {
     seeds: [{
@@ -51,15 +51,12 @@ var receipts = {
 }
 
 // add form and table templates to receipt page
-$receipts_template.find('#form').append($new_receipt);
-$receipts_template.find('#table').append($table_template);
-
-
+$receipts_template.find(`#form`).append($new_receipt);
+$receipts_template.find(`#table`).append($table_template);
 
 // sort receipt categories by date (newest on top)
 function sortByDate(key) {
     for (var i = 0; i < receipts[key].length; i++) {
-        console.log(key);
         receipts[key].sort(function(a, b) {
             a = new Date(a.date);
             b = new Date(b.date);
@@ -71,14 +68,14 @@ function sortByDate(key) {
 // populate table with seedData
 function updateTable(key) {
     receipts[key].forEach(function(receipt) {
-        $table_template.find('#' + key).append(
+        $table_template.find(`#` + key).append(
             `
-        <tr>
-            <td>${receipt.date}</td>
-            <td>${receipt.item}</td>
-            <td>${receipt.quantity}</td>
-        </tr>
-        `
+            <tr>
+                <td>${receipt.date}</td>
+                <td>${receipt.item}</td>
+                <td>${receipt.quantity}</td>
+            </tr>
+            `
         );
     });
 }
@@ -90,6 +87,22 @@ function renderData() {
         updateTable(key);
     }
 }
+
+// event listeners
+
+function formSubmit() {
+    $(`#submit`).click(function(event) {
+        event.preventDefault();
+        var category = $(`input[name="category"]:checked`, `#category`).val();
+        console.log(category);
+        $(`#new-receipt`)[0].reset();
+    });
+}
+
 renderData();
+
+$(function() {
+    formSubmit();
+});
 
 module.exports = $receipts_template;

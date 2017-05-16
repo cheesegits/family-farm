@@ -1,12 +1,19 @@
-var $ = require('jquery');
-
-module.exports = $(`
+var $ = require(`jquery`); module.exports = $(`
 <div class="col-lg-12 text-center">
     <!--<img class="img-responsive img-border img-full" src="img/slide-1.jpg" alt="">-->
     <h2>New Receipt
         <!--<br><small>October 13, 2013</small>-->
     </h2>
-    <form>
+    <form id="new-receipt">
+        <div id="category">
+            <label>Category:</label>
+            <div class="radio-inline">
+                <label><input type="radio" value="seeds" name="category">Seeds</label>
+            </div>
+            <div class="radio-inline">
+                <label><input type="radio" value="soil" name="category">Soil & Fertilizer</label>
+            </div>
+        </div>
         <div class="input-append date form-group" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
             <label>Date</label>
             <input class="span2" size="16" type="text" value="12-02-2012">
@@ -34,15 +41,6 @@ module.exports = $(`
             </div>
         </div>
         <div class="checkbox">
-            <label><input type="checkbox" value="">Seeds</label>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">Soil & Fert.</label>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">Labor</label>
-        </div>
-        <div class="checkbox">
             <label><input type="checkbox" value="">Certified Organic</label>
         </div>
         <div class="form-group">
@@ -50,7 +48,7 @@ module.exports = $(`
             <input>
         </div>
     </form>
-    <a href="#" class="btn btn-default btn-lg">Submit</a>
+    <a href="#" class="btn btn-default btn-lg" id="submit">Submit</a>
     <hr>
 </div>
 `);
