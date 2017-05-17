@@ -93,8 +93,17 @@ function renderData() {
 function formSubmit() {
     $(`#submit`).click(function(event) {
         event.preventDefault();
-        var category = $(`input[name="category"]:checked`, `#category`).val();
-        console.log(category);
+        var category = $(`input[name="category"]:checked`, `#category`).val(); // required
+        // datepicker // required
+        var item = $(`#item`).val(); // required
+        var company = $(`#company`).val(); // required
+        var quantity = $(`#quantity`).val();
+        var price = $(`#price`).val();
+        var tags = [];
+        $(`input:checkbox[name="tags"]:checked`).each(function() {
+            tags.push($(this).val());
+        });
+        console.log(quantity);
         $(`#new-receipt`)[0].reset();
     });
 }
