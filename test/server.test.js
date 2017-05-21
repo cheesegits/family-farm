@@ -25,45 +25,45 @@ describe(`Receipts`, function() {
                 company: `Seed Savers`,
                 item: `Squash`,
                 quantity: 5
-            });
+            }, function() { console.log(1) });
             Receipt.create({
                 category: `seeds`,
                 date: date(),
                 company: `Seeds of Change`,
                 item: `Beans`
-            });
+            }, function() { console.log(2) });
             Receipt.create({
                 category: `seeds`,
                 date: date(),
                 company: `Burpee`,
                 item: `Corn`,
                 price: 3.99
-            });
+            }, function() { console.log(3) });
             Receipt.create({
                 category: `soil`,
                 date: date(),
                 company: `Lowe's`,
                 item: `Avocado`
-            });
+            }, function() { console.log(4) }); // creating 4 objects works as intended
             Receipt.create({
                 category: `soil`,
                 date: date(),
                 company: `Home Depot`,
                 item: `Compost`
-            });
+            }, function() { console.log(5) }); // attempting to create 5 objects will never create the 5th object
             Receipt.create({
                 category: `soil`,
                 date: date(),
                 company: `Lowe's`,
-                item: `Soil`, // cannot create 6 or 8 objects, but can create 7?
-                tags: [`Certified Organic`] // can immediately add tags
-            });
+                item: `Soil`,
+                tags: [`Certified Organic`]
+            }, function() { console.log(6) }); // attempting to create 6 objects will sometimes fail to create the 5th object
             Receipt.create({
                 category: `soil`,
                 date: date(),
                 company: `Dr. Earth`,
                 item: `Fertilizer`
-            });
+            }, function() { console.log(7) }); // creating 7 objects works as intended 
             done();
         });
     });
@@ -85,6 +85,7 @@ describe(`Receipts`, function() {
             .request(app)
             .get(`/receipts`)
             .end(function(error, response) {
+                // console.log(response.body);
                 expect(error).to.be.null;
                 expect(response.status).to.equal(200);
                 expect(response).to.be.json;
