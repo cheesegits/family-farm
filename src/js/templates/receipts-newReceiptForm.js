@@ -1,60 +1,75 @@
 var $ = require(`jquery`); module.exports = $(`
 <div class="col-lg-12 text-center">
-    <!--<img class="img-responsive img-border img-full" src="img/slide-1.jpg" alt="">-->
-    <h2>New Receipt
-        <!--<br><small>October 13, 2013</small>-->
-    </h2>
+    <h2>New Receipt</h2>
+    <!-- form -->
     <form class="form-horizontal" id="new-receipt">
-        <!-- class="form-horizonal" not working properly-->
-        <!-- All you have to do is to add .form-horizontal class to the <form> element
-            and .control-label class to all <label> element. 
-            Use Bootstrap’s predefined grid classes to align labels and form controls. -->
-        <div id="category">
-            <label>Category:</label>
-            <!-- switch to drop down menu? -->
-            <div class="radio-inline">
-                <label><input type="radio" value="seeds" name="category">Seeds</label>
-            </div>
-            <div class="radio-inline">
-                <label><input type="radio" value="soil" name="category">Soil & Fertilizer</label>
-            </div>
+        <!-- date -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Date:</label>
+            <select class="form-control col-sm-1 date required" id="years">
+                    <option value="">Year</option>
+                </select>
+            <select class="form-control col-sm-1 date required" id="months">
+                    <option value="">Month</option>
+                </select>
+            <select class="form-control col-sm-1 date required" id="days">
+                    <option value="">Day</option>
+                </select>
+            <small class="col-sm-5 text-left required"><i>(required)</i></small>
         </div>
-        <!-- need help with datepicker setup -->
-        <div class="input-append date form-group" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-            <label>Date:</label>
-            <input class="span2" size="16" type="text" value="12-02-2012">
-            <span class="add-on"><i class="icon-remove"></i></span>
-            <span class="add-on"><i class="icon-th"></i></span>
+        <!-- category -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Category:</label>
+            <select class="form-control col-sm-4 required" id="category">
+            <option value="">Select</option>
+            <option value="seeds">Seeds</option>
+            <option value="soil">Soil & Fertilizer</option>
+            </select>
+            <small class="col-sm-4 text-left required"><i>(required)</i></small>
         </div>
-        <div class="form-group">
-            <label>Item:</label>
-            <input type="text" id="item">
+        <!-- item -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Item:</label>
+            <input class="form-control col-sm-4 required" type="text" id="item">
+            <small class="col-sm-4 text-left required"><i>(required)</i></small>
         </div>
-        <div class="form-group">
-            <label>Quantity:</label>
-            <input type="text" id="quantity">
+        <!-- company -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Company:</label>
+            <input class="form-control col-sm-4 required" type="text" id="company">
+            <small class="col-sm-4 text-left required"><i>(required)</i></small>
         </div>
-        <div class="form-group">
-            <label>Company:</label>
-            <input type="text" id="company">
+        <!-- quantity -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Quantity:</label>
+            <input class="form-control col-sm-4" type="number" id="quantity">
+            <p class="col-sm-4"></p>
         </div>
-        <div class="form-group">
-            <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-            <div class="input-group">
+        <!-- amount -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2" for="exampleInputAmount">Amount:</label>
+            <div class="input-group col-sm-4">
                 <div class="input-group-addon">$</div>
-                <input type="text" class="form-control" id="price" placeholder="Amount">
+                <input type="number" class="form-control" id="price" placeholder="Dollars">
                 <div class="input-group-addon">.00</div>
             </div>
+            <p class="col-sm-4"></p>
         </div>
-        <div class="form-group">
-            <label>Tags:</label>
-            <label><input type="checkbox" name="tags" value="Certified Organic">Certified Organic</label>
+        <!-- tags -->
+        <div class="form-inline form-group form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Tags:</label>
+            <div class="col-sm-4">
+                <label><input type="checkbox" name="tags" value="Certified Organic">Certified Organic</label>
+            </div>
+            <p class="col-sm-4"></p>
         </div>
-        <div class="form-group">
-            <label>New Tag:</label>
-            <input>
+        <!-- new tag -->
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">New Tag:</label>
+            <input class="form-control col-sm-4">
         </div>
     </form>
+    <!-- submit -->
     <a href="#" class="btn btn-default btn-lg" id="submit">Submit</a>
     <hr>
 </div>

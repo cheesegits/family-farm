@@ -50,11 +50,52 @@ var receipts = {
     }]
 }
 
+// update DOM
+
+// pre-select today's date
+function selectToday(dropdown, valueToday, counter) {
+    if (counter === valueToday) {
+        $(`${dropdown} option[value=${counter}]`).prop(`selected`, `selected`);
+    }
+}
+
+// load date options
+function formDate() {
+    // variables for today's date
+    var date = new Date();
+    var mm = date.getMonth() + 1;
+    var dd = date.getDate();
+    var yyyy = date.getFullYear();
+    // variables to create dropdown menu
+    var yearList = yyyy;
+    var monthArray = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+    var daysInMonth = new Date(yyyy, mm, 0).getDate();
+    // append years
+    for (var i = 10; i > 0; i--) {
+        $(`#years`).append(`<option value="${yearList}">${yearList}</option>`);
+        selectToday(`#years`, yyyy, yearList);
+        yearList -= 1;
+    }
+    // append months
+    for (var i = 0; i < 12; i++) {
+        var counter = i;
+        $(`#months`).append(`<option value="${i+1}">${monthArray[i]}</option>`);
+        selectToday(`#months`, mm, counter);
+    }
+    // append days
+    // function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
+    for (var i = 0; i < daysInMonth; i++) {
+        var counter = i + 1;
+        $(`#days`).append(`<option value="${i+1}">${i+1}<option>`);
+        selectToday(`#days`, dd, counter);
+    };
+}
+
 // add form and table templates to receipt page
 $receipts_template.find(`#form`).append($new_receipt);
 $receipts_template.find(`#table`).append($table_template);
 
-// sort receipt categories by date (newest on top)
+// sort receipt array by date (newest on top)
 function sortByDate(key) {
     for (var i = 0; i < receipts[key].length; i++) {
         receipts[key].sort(function(a, b) {
@@ -68,7 +109,7 @@ function sortByDate(key) {
 // populate table with seedData
 function updateTable(key) {
     receipts[key].forEach(function(receipt) {
-        $table_template.find(`#` + key).append(
+        $table_template.find(`#` + key).children(`tbody`).append(
             `
             <tr>
                 <td>${receipt.date}</td>
@@ -80,7 +121,7 @@ function updateTable(key) {
     });
 }
 
-// update DOM
+// load receipt tables
 function renderData() {
     for (key in receipts) {
         sortByDate(key);
@@ -89,12 +130,11 @@ function renderData() {
 }
 
 // event listeners
-
 function formSubmit() {
     $(`#submit`).click(function(event) {
         event.preventDefault();
-        var category = $(`input[name="category"]:checked`, `#category`).val(); // required
-        // datepicker // required
+        var category = $(`#category option:selected`).val(); // required
+        var date = $(`#months option:selected`).val() + `-` + $(`#days option:selected`).val() + `-` + $(`#years option:selected`).val(); // required
         var item = $(`#item`).val(); // required
         var company = $(`#company`).val(); // required
         var quantity = $(`#quantity`).val();
@@ -108,10 +148,28 @@ function formSubmit() {
     });
 }
 
-renderData();
+function formValidator() { // needs overhaul
+    $(`.required`).on(`focusout`, function() {
+        var value = $(this).val();
+        if (value == ``) {
+            $(this).closest(`.form-group`).addClass(`has-error`);
+        } else if ($.type(value) !== `string`) { // check against required schema type?
+            $(this).addClass(`has-error`);
+        } else {
+            // $(this) refers to parent div, but need it to refer to closest div
+            $(this).closest(`.form-group`).append(`<span class="glyphicon glyphicon-ok form-control-feedback"></span>`);
+        }
+    });
+    $(`input`).on(`focus`, function() {
+        $(this).closest(`.form-group`).removeClass(`has-error`);
+    });
+}
 
 $(function() {
+    formDate();
+    formValidator();
     formSubmit();
+    renderData();
 });
 
 module.exports = $receipts_template;
