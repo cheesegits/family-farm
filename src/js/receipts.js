@@ -3,6 +3,10 @@ var $new_receipt = require(`./templates/receipts-newReceiptForm`);
 var $receipts_template = require(`./templates/receipts-pageTemplate`);
 var $table_template = require(`./templates/receipts-tableOfReceipts`);
 
+// add form and table templates to receipt page
+$receipts_template.find(`#form`).append($new_receipt);
+$receipts_template.find(`#table`).append($table_template);
+
 var receipts = {
     seeds: [{
         date: "01-02-17",
@@ -52,6 +56,7 @@ var receipts = {
 
 // factory function for receipts
 var ReceiptList = function() {
+    console.log(this);
     console.log(`Ready for a new receipt!`); // this logs correctly
     this.items = [];
     this.form = $(`#new-receipt`);
@@ -60,6 +65,7 @@ var ReceiptList = function() {
 
 // prototype method 
 ReceiptList.prototype.onAddReceiptSubmit = function(event) {
+    console.log(event); // undefined
     console.log(`User attempting to submit receipt...`); // this does not log
     event.preventDefault();
     if (true === true) {
@@ -125,10 +131,6 @@ function formDate() {
     };
 }
 
-// add form and table templates to receipt page
-$receipts_template.find(`#form`).append($new_receipt);
-$receipts_template.find(`#table`).append($table_template);
-
 // sort receipt array by date (newest on top)
 function sortByDate(key) {
     for (var i = 0; i < receipts[key].length; i++) {
@@ -188,7 +190,10 @@ $(function() {
     renderData();
     console.log(`Page loading...`); // this logs correctly
     var Receipts = new ReceiptList();
-    console.log(Receipts);
+    console.log(Receipts.onAddReceiptSubmit());
+    $(`#new-receipt`).on(`submit`, function(e) {
+        alert(`hello`); // does not alert when clicked, or enter is it
+    });
 });
 
 module.exports = $receipts_template;
