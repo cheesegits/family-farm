@@ -50,8 +50,42 @@ var receipts = {
     }]
 }
 
-// update DOM
+// factory function for receipts
+var ReceiptList = function() {
+    console.log(`Ready for a new receipt!`); // this logs correctly
+    this.items = [];
+    this.form = $(`#new-receipt`);
+    this.form.submit(this.onAddReceiptSubmit.bind(this));
+}
 
+// prototype method 
+ReceiptList.prototype.onAddReceiptSubmit = function(event) {
+    console.log(`User attempting to submit receipt...`); // this does not log
+    event.preventDefault();
+    if (true === true) {
+        console.log(`Mock validation has passed...`); // this does not log
+        var receipt = {};
+        receipt.date = $(`#months option:selected`).val() + `-` + $(`#days option:selected`).val() + `-` + $(`#years option:selected`).val();
+        receipt.category = $(`#category option:selected`).val();
+        receipt.item = $(`#item`).val();
+        receipt.company = $(`#company`).val();
+        this.addReceipt(receipt);
+    }
+}
+
+var addReceipt = function(receipt) {
+    console.log(`Object ready to be posted: ${receipt}`); // this does not log
+    var ajax = $.ajax(`/receipts`, {
+        type: `POST`,
+        data: JSON.stringify(receipt),
+        dataType: `json`,
+        contentType: `application/json`
+    });
+    console.log(`Receipt successfully submitted:` + receipt); // this does not log
+    // ajax.done(this.getItems.bind(this));
+}
+
+// update DOM
 // pre-select today's date
 function selectToday(dropdown, valueToday, counter) {
     if (counter === valueToday) {
@@ -83,7 +117,7 @@ function formDate() {
         selectToday(`#months`, mm, counter);
     }
     // append days
-    // function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
+    // additionl function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
     for (var i = 0; i < daysInMonth; i++) {
         var counter = i + 1;
         $(`#days`).append(`<option value="${i+1}">${i+1}<option>`);
@@ -106,7 +140,7 @@ function sortByDate(key) {
     }
 }
 
-// populate table with seedData
+// populate table with mock seedData
 function updateTable(key) {
     receipts[key].forEach(function(receipt) {
         $table_template.find(`#` + key).children(`tbody`).append(
@@ -130,24 +164,7 @@ function renderData() {
 }
 
 // event listeners
-function formSubmit() {
-    $(`#submit`).click(function(event) {
-        event.preventDefault();
-        var category = $(`#category option:selected`).val(); // required
-        var date = $(`#months option:selected`).val() + `-` + $(`#days option:selected`).val() + `-` + $(`#years option:selected`).val(); // required
-        var item = $(`#item`).val(); // required
-        var company = $(`#company`).val(); // required
-        var quantity = $(`#quantity`).val();
-        var price = $(`#price`).val();
-        var tags = [];
-        $(`input:checkbox[name="tags"]:checked`).each(function() {
-            tags.push($(this).val());
-        });
-        console.log(quantity);
-        $(`#new-receipt`)[0].reset();
-    });
-}
-
+// on the fly form validator before submit button is clicked
 function formValidator() { // needs overhaul
     $(`.required`).on(`focusout`, function() {
         var value = $(this).val();
@@ -168,8 +185,10 @@ function formValidator() { // needs overhaul
 $(function() {
     formDate();
     formValidator();
-    formSubmit();
     renderData();
+    console.log(`Page loading...`); // this logs correctly
+    var Receipts = new ReceiptList();
+    console.log(Receipts);
 });
 
 module.exports = $receipts_template;

@@ -2,7 +2,7 @@ var $ = require(`jquery`); module.exports = $(`
 <div class="col-lg-12 text-center">
     <h2>New Receipt</h2>
     <!-- form -->
-    <form class="form-horizontal" id="new-receipt">
+    <form class="form-horizontal new-receipt" id="new-receipt">
         <!-- date -->
         <div class="form-inline form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Date:</label>
@@ -21,9 +21,9 @@ var $ = require(`jquery`); module.exports = $(`
         <div class="form-inline form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Category:</label>
             <select class="form-control col-sm-4 required" id="category">
-            <option value="">Select</option>
-            <option value="seeds">Seeds</option>
-            <option value="soil">Soil & Fertilizer</option>
+                <option value="">Select</option>
+                <option value="seeds">Seeds</option>
+                <option value="soil">Soil & Fertilizer</option>
             </select>
             <small class="col-sm-4 text-left required"><i>(required)</i></small>
         </div>
@@ -70,7 +70,8 @@ var $ = require(`jquery`); module.exports = $(`
         </div>
     </form>
     <!-- submit -->
-    <a href="#" class="btn btn-default btn-lg" id="submit">Submit</a>
+    <a type="submit" class="btn btn-default btn-lg" id="submit">Submit</a>
+    <input type="submit" value="submit">
     <hr>
 </div>
 `);
