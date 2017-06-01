@@ -1,13 +1,13 @@
 var $ = require('jquery');
-var $receipts_page = require('./src/js/receipts');
-var $home_page = require('./src/js/home');
-var $navigation_bar = require('./src/js/templates/navigation');
+var $receipts_page = require('./receipts');
+var $home_page = require('./home');
+var $navigation_bar = require('./templates/navigation');
 
 // app pages
 var templates = {
-    home: $home_page,
-    receipts: $receipts_page
-}
+  home: $home_page,
+  receipts: $receipts_page
+};
 
 // landing page
 // $('#template_body').html($home_page);  // final landing page
@@ -18,11 +18,11 @@ $('#navigation').html($navigation_bar);
 
 // loads app page
 function render(template) {
-    $('#template_body').html(template);
+  $('#template_body').html(template);
 }
 
 // navigation bar click
 $('#navigation').on('click', 'a', function() {
-    var key = $(this).attr('value');
-    render(templates[key]);
+  var key = $(this).attr('value');
+  render(templates[key]);
 });

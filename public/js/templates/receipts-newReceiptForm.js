@@ -1,4 +1,5 @@
-var $ = require(`jquery`); module.exports = $(`
+var $ = require(`jquery`);
+module.exports = $(`
 <div class="col-lg-12 text-center">
     <h2>New Receipt</h2>
     <!-- form -->
@@ -68,10 +69,9 @@ var $ = require(`jquery`); module.exports = $(`
             <label class="control-label col-sm-2 col-sm-offset-2">New Tag:</label>
             <input class="form-control col-sm-4">
         </div>
-    </form>
     <!-- submit -->
-    <a type="submit" class="btn btn-default btn-lg" id="submit">Submit</a>
-    <input type="submit" value="submit">
+    <button type="submit" class="btn btn-default btn-lg">Submit</button>
+    </form>
     <hr>
 </div>
 `);

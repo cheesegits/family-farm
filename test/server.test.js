@@ -1,8 +1,8 @@
 const chai = require(`chai`);
 const chaiHttp = require(`chai-http`);
 const chaiDateString = require(`chai-date-string`);
-const server = require(`../server.js`);
-const Receipt = require(`../src/models/item`);
+const server = require(`../server/server.js`);
+const Receipt = require(`../server/models/item`);
 
 const app = server.app;
 
@@ -153,7 +153,7 @@ describe(`Receipts`, function() {
             })
             .end(function(error, response) {
                 expect(error).to.be.null;
-                expect(response.status).to.equal(200);
+                expect(response.status).to.equal(201);
                 expect(response).to.be.json;
                 expect(response.body.date).to.be.a.dateString();
                 expect(response.body.quantity).to.equal(12345);
