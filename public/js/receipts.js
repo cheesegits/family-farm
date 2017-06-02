@@ -8,6 +8,7 @@ $receipts_template.find(`#form`).append($new_receipt);
 $receipts_template.find(`#table`).append($table_template);
 
 var receipts = {
+  // no longer needed
   seeds: [
     {
       date: "01-02-17",
@@ -113,49 +114,45 @@ function formDate() {
   }
 }
 
-// // sort receipt array by date (newest on top)
-// function sortByCategory(key) {
-//     allReceipts = {
-//         seeds: [],
-//         soil: []
-//     }
-//     receipts.forEach(function(receipt) {
-//         allReceipts[receipt.category].push(receipt);
-//     });
-//     return allReceipts;
-// }
+// sort receipt array by date (newest on top)
+function sortByCategory(allReceipts) {
+  var receiptsByCategory = {
+    seeds: [],
+    soil: []
+  };
+  allReceipts.forEach(function(receipt) {
+    receiptsByCategory[receipt.category].push(receipt);
+  });
+  sortByDate(receiptsByCategory);
+}
 
-// function sortByDate(allReceipts) {
-//     for (var i = 0; i < allReceipts[key].length; i++) {
-//         allReceipts[key].sort(function(a, b) {
-//             a = new Date(a.date);
-//             b = new Date(b.date);
-//             return b - a;
-//         });
-//     }
-// }
+function sortByDate(receiptsByCategory) {
+  for (var category in receiptsByCategory) {
+    receiptsByCategory[category].sort(function(a, b) {
+      a = new Date(a.date);
+      b = new Date(b.date);
+      return b - a;
+    });
+  }
+  updateTable(receiptsByCategory);
+}
 
 // populate table with mock seedData
-function updateTable(key) {
-  receipts[key].forEach(function(receipt) {
-    $table_template.find(`#` + key).children(`tbody`).append(
-      `
+function updateTable(receiptsByDate) {
+  for (var category in receiptsByDate) {
+    receiptsByDate[category].forEach(function(receipt) {
+      $table_template.find(`#` + category).children(`tbody`).append(
+        `
             <tr>
                 <td>${receipt.date}</td>
                 <td>${receipt.item}</td>
                 <td>${receipt.quantity}</td>
             </tr>
             `
-    );
-  });
+      );
+    });
+  }
 }
-
-// function renderData() {
-//     for (key in receipts) {
-//         sortByDate(key);
-//         updateTable(key);
-//     }
-// }
 
 function formSubmit() {
   $("#new-receipt").submit(function(event) {
@@ -182,7 +179,7 @@ function formSubmit() {
       }
     })
       .done(function(response) {
-        console.log("The POST response is ", response);
+        console.log("The POST response is ", response); // why , and not + concatenation?
       })
       .fail(function(error) {
         console.log(error);
@@ -190,9 +187,23 @@ function formSubmit() {
   });
 }
 
+function getReceipts() {
+  var ajax = $.ajax("/receipts", {
+    type: `GET`,
+    data: JSON.stringify(),
+    dataType: "json"
+  })
+    .done(function(response) {
+      sortByCategory(response);
+    })
+    .fail(function(error) {
+      console.log(error);
+    });
+}
+
 $(function() {
   formDate();
-  // renderData();
+  getReceipts();
   formSubmit();
 });
 
