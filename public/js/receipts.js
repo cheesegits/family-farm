@@ -1,4 +1,8 @@
 var $ = require(`jquery`);
+var dataTables = require("datatables.net");
+var dataTablesBS = require("datatables.net-bs");
+var responsiveTables = require("datatables.net-responsive");
+var responsiveTablesBS = require("datatables.net-responsive-bs");
 var $new_receipt = require(`./templates/receipts-newReceiptForm`);
 var $receipts_template = require(`./templates/receipts-pageTemplate`);
 var $table_template = require(`./templates/receipts-tableOfReceipts`);
@@ -201,9 +205,51 @@ function getReceipts() {
     });
 }
 
+// function seedsTable() {
+//   $("#soil").DataTable({
+//     // processing: true,
+//     ajax: {
+//       url: "/receipts",
+//       type: "GET",
+//       dataSrc: "", // flat data source, tables still combined
+//       data: JSON.stringify(),
+//       dataType: "json"
+//     },
+//     columns: [{ data: "date" }, { data: "item" }, { data: "company" }],
+//     order: [[0, "desc"]],
+//     responsive: {
+//       details: {
+//         display: $.fn.dataTable.Responsive.display.modal({
+//           header: function(row) {
+//             var data = row.data();
+//             return "Details for " + data[0] + " " + data[1];
+//           }
+//         }),
+//         renderer: function(api, rowIdx, columns) {
+//           var data = $.map(columns, function(col, i) {
+//             return (
+//               "<tr>" +
+//               "<td>" +
+//               col.title +
+//               ":" +
+//               "</td> " +
+//               "<td>" +
+//               col.data +
+//               "</td>" +
+//               "</tr>"
+//             );
+//           }).join("");
+//           return $("<table/>").append(data);
+//         }
+//       }
+//     }
+//   });
+// }
+
 $(function() {
   formDate();
   getReceipts();
+  // seedsTable();
   formSubmit();
 });
 

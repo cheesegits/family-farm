@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var $ = require("jquery");
 module.exports = $(`
 <div class="col-lg-12 text-center">
     <h2>Seeds
@@ -7,8 +7,8 @@ module.exports = $(`
     <table class="table table-hover table-condensed" id="seeds">
         <thead>
             <th>Date</th>
-            <th>Product</th>
-            <th>Quantity</th>
+            <th>Item</th>
+            <th>Company</th>
         </thead>
         <tbody>
         </tbody>
@@ -21,8 +21,8 @@ module.exports = $(`
     <table class="table table-hover table-condensed" id="soil">
         <thead>
             <th>Date</th>
-            <th>Product</th>
-            <th>Quantity</th>
+            <th>Item</th>
+            <th>Company</th>
         </thead>
         <tbody>
         </tbody>
