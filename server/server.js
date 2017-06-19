@@ -91,6 +91,19 @@ app.get(`/receipts`, function(request, response) {
   });
 });
 
+// READ individual receipt in the database
+app.get("/receipts/:id", function(req, res) {
+  // console.log(req);
+  Receipt.findById(req.params.id, function(err, receipt) {
+    if (err) {
+      return response.status(500).json({
+        message: err
+      });
+    }
+    res.status(200).json(receipt);
+  });
+});
+
 // UPDATE a receipt in the database
 app.put(`/receipts/:id`, function(request, response) {
   var updateData = {};
@@ -127,10 +140,8 @@ app.delete(`/receipts/:id`, function(request, response) {
   });
 });
 
-app.use("*", function(req, res) {
-  res.status(404).json({
-    message: "Not Found"
-  });
+app.all("*", function(req, res) {
+  res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });
 
 // exports

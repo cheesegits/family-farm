@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var $ = require("jquery");
 module.exports = $(`
 <div class="col-lg-12 text-center">
     <h2>Seeds
