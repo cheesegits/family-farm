@@ -54,7 +54,7 @@ function formDate() {
     selectToday("#months", mm, counter);
   }
   // append days
-  // additionl function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
+  // additional function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
   for (var i = 0; i < daysInMonth; i++) {
     var counter = i + 1;
     $("#days").append(`<option value="${i + 1}">${i + 1}<option>`);
@@ -89,13 +89,18 @@ function sortByDate(receiptsByCategory) {
 function updateTable(receiptsByDate) {
   for (var category in receiptsByDate) {
     receiptsByDate[category].forEach(function(receipt) {
+      var date = new Date(receipt.date);
+      var mm = date.getMonth() + 1;
+      var dd = date.getDate();
+      var yyyy = date.getFullYear();
+      date = `${mm}/${dd}/${yyyy}`;
       $table_template.find("#" + category).children("tbody").append(
         `
           <tr id="${receipt._id}" class="row">
-              <td>${receipt.date}</td>
+              <td>${date}</td>
               <td>${receipt.item}</td>
-              <td>${receipt.quantity}</td>
-              <td><button type="button" class="btn btn-default btn-lg">Edit</button></td>
+              <td>${receipt.company}</td>
+              <td><button type="button" class="btn btn-default btn-sm">Edit</button></td>
           </tr>
         `
       );
@@ -105,18 +110,11 @@ function updateTable(receiptsByDate) {
 
 function editReceipt() {
   $.noConflict();
-  console.log("ready!");
   $("body").on("click", ".table .btn", function() {
-    console.log("Button working!");
     var id = $(this).closest("tr").attr("id");
-    console.log(id);
     getIndividualReceipt(id);
-    $("#myModal").modal(); // is this not a function because selector
-    console.log($("#myModal"));
+    $("#myModal").modal();
   });
-  // send data to backend
-  // close modal
-  // refresh table
 }
 
 function getIndividualReceipt(id) {
@@ -127,6 +125,95 @@ function getIndividualReceipt(id) {
   });
   ajax.done(function(response) {
     console.log("Individual receipt: ", response);
+    populateEditReceipt(response);
+  });
+}
+
+function populateEditReceipt(receipt) {
+  var date = new Date(receipt.date);
+  var mm = date.getMonth() + 1;
+  var dd = date.getDate();
+  var yyyy = date.getFullYear();
+  console.log(`${mm}/${dd}/${yyyy}`);
+  // variables to create dropdown menu
+  var yearList = yyyy;
+  var monthArray = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  var daysInMonth = new Date(yyyy, mm, 0).getDate();
+  // append years
+  for (var i = 10; i > 0; i--) {
+    $("#editYear").append(`<option value="${yearList}">${yearList}</option>`);
+    selectToday("#editYear", yyyy, yearList);
+    yearList -= 1;
+  }
+  // append months
+  for (var i = 0; i < 12; i++) {
+    var counter = i;
+    $("#editMonth").append(
+      `<option value="${i + 1}">${monthArray[i]}</option>`
+    );
+    selectToday("#editMonth", mm, counter);
+  }
+  // append days
+  // additional function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
+  for (var i = 0; i < daysInMonth; i++) {
+    var counter = i + 1;
+    $("#editDay").append(`<option value="${i + 1}">${i + 1}<option>`);
+    selectToday("#days", dd, counter);
+  }
+  $("#editCategory").val(`${receipt.category}`);
+  $("#editItem").attr("value", `${receipt.item}`);
+  $("#editCompany").attr("value", `${receipt.company}`);
+  $("#editQuantity").attr("value", `${receipt.quantity}`);
+  $("#editPrice").attr("value", `${receipt.price}`);
+  // // load tags
+  editReceiptSubmit(receipt._id);
+  deleteReceipt(receipt._id);
+}
+
+function editReceiptSubmit(id) {
+  $.noConflict();
+  $("#editForm").submit(function(event) {
+    console.log("Edit Submit Attempted");
+    $.ajax({
+      url: "/receipts/" + id,
+      type: "PATCH",
+      data: {
+        date:
+          $(this).find("#editYear").val() +
+            `-` +
+            $(this).find("#editMonth").val() +
+            `-` +
+            $(this).find("#editDay").val(),
+        category: $(this).find("#editCategory").val(),
+        item: $(this).find("#editItem").val(),
+        company: $(this).find("#editCompany").val()
+      },
+      dataType: "json"
+    });
+  });
+}
+
+function deleteReceipt(id) {
+  console.log("delete id: " + id);
+  $("#deleteItem").on("click", function(event) {
+    $.ajax({
+      url: "/receipts/" + id,
+      type: "DELETE",
+      dataType: "json"
+    });
   });
 }
 
@@ -142,11 +229,11 @@ function formSubmit() {
       method: "POST",
       data: {
         date:
-          $(this).find("#months").val() +
+          $(this).find("#years").val() +
             `-` +
-            $(this).find("#days").val() +
+            $(this).find("#months").val() +
             `-` +
-            $(this).find("#years").val(),
+            $(this).find("#days").val(),
         category: $(this).find("#category").val(),
         item: $(this).find("#item").val(),
         company: $(this).find("#company").val(),
