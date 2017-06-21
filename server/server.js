@@ -105,7 +105,7 @@ app.get("/receipts/:id", function(req, res) {
 });
 
 // UPDATE a receipt in the database
-app.put(`/receipts/:id`, function(request, response) {
+app.patch(`/receipts/:id`, function(request, response) {
   var updateData = {};
   for (var key in request.body) {
     updateData[key] = request.body[key];
