@@ -57,7 +57,7 @@ function formDate() {
   // additional function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
   for (var i = 0; i < daysInMonth; i++) {
     var counter = i + 1;
-    $("#days").append(`<option value="${i + 1}">${i + 1}<option>`);
+    $("#days").append(`<option value="${counter}">${counter}</option>`);
     selectToday("#days", dd, counter);
   }
 }
@@ -96,11 +96,11 @@ function updateTable(receiptsByDate) {
       date = `${mm}/${dd}/${yyyy}`;
       $table_template.find("#" + category).children("tbody").append(
         `
-          <tr id="${receipt._id}" class="row">
+          <tr value="${receipt._id}" class="row">
               <td>${date}</td>
               <td>${receipt.item}</td>
               <td>${receipt.company}</td>
-              <td><button type="button" class="btn btn-default btn-sm">Edit</button></td>
+              <td><button type="button" class="btn btn-default btn-sm editButton">Edit</button></td>
           </tr>
         `
       );
@@ -110,8 +110,8 @@ function updateTable(receiptsByDate) {
 
 function editReceipt() {
   $.noConflict();
-  $("body").on("click", ".table .btn", function() {
-    var id = $(this).closest("tr").attr("id");
+  $("body").on("click", ".editButton", function() {
+    var id = $(this).parents("tr").attr("value");
     getIndividualReceipt(id);
     $("#myModal").modal();
   });
@@ -160,25 +160,23 @@ function populateEditReceipt(receipt) {
   }
   // append months
   for (var i = 0; i < 12; i++) {
-    var counter = i;
     $("#editMonth").append(
       `<option value="${i + 1}">${monthArray[i]}</option>`
     );
-    selectToday("#editMonth", mm, counter);
+    selectToday("#editMonth", mm, i);
   }
   // append days
-  // additional function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
   for (var i = 0; i < daysInMonth; i++) {
     var counter = i + 1;
-    $("#editDay").append(`<option value="${i + 1}">${i + 1}<option>`);
-    selectToday("#days", dd, counter);
+    $("#editDay").append(`<option value="${counter}">${counter}<option>`);
+    selectToday("#editDay", dd, counter);
   }
-  $("#editCategory").val(`${receipt.category}`);
-  $("#editItem").attr("value", `${receipt.item}`);
-  $("#editCompany").attr("value", `${receipt.company}`);
-  $("#editQuantity").attr("value", `${receipt.quantity}`);
-  $("#editPrice").attr("value", `${receipt.price}`);
-  // // load tags
+  $("#editCategory").val(receipt.category);
+  $("#editItem").attr("value", receipt.item);
+  $("#editCompany").attr("value", receipt.company);
+  $("#editQuantity").attr("value", receipt.quantity);
+  $("#editPrice").attr("value", receipt.price);
+  $("#organic-tag").prop("checked");
   editReceiptSubmit(receipt._id);
   deleteReceipt(receipt._id);
 }
@@ -189,7 +187,7 @@ function editReceiptSubmit(id) {
     console.log("Edit Submit Attempted");
     $.ajax({
       url: "/receipts/" + id,
-      type: "PATCH",
+      type: "PUT",
       data: {
         date:
           $(this).find("#editYear").val() +
@@ -199,7 +197,9 @@ function editReceiptSubmit(id) {
             $(this).find("#editDay").val(),
         category: $(this).find("#editCategory").val(),
         item: $(this).find("#editItem").val(),
-        company: $(this).find("#editCompany").val()
+        company: $(this).find("#editCompany").val(),
+        quantity: $(this).find("#editQuantity").val(),
+        price: $(this).find("#editPrice").val()
       },
       dataType: "json"
     });
