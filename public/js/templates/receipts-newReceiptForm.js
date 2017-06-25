@@ -7,38 +7,34 @@ module.exports = $(`
         <!-- date -->
         <div class="form-inline form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Date:</label>
-            <select class="form-control col-sm-1 date required" id="years">
+            <select class="form-control col-sm-1 date" id="years" required>
                     <option value="">Year</option>
                 </select>
-            <select class="form-control col-sm-1 date required" id="months">
+            <select class="form-control col-sm-2 date" id="months" required>
                     <option value="">Month</option>
                 </select>
-            <select class="form-control col-sm-1 date required" id="days">
+            <select class="form-control col-sm-1 date" id="days" required>
                     <option value="">Day</option>
                 </select>
-            <small class="col-sm-5 text-left required"><i>(required)</i></small>
         </div>
         <!-- category -->
         <div class="form-inline form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Category:</label>
-            <select class="form-control col-sm-4 required" id="category">
-                <option value="">Select</option>
+            <select class="form-control col-sm-4" id="category" required>
+                <option value="">Select one</option>
                 <option value="seeds">Seeds</option>
                 <option value="soil">Soil & Fertilizer</option>
             </select>
-            <small class="col-sm-4 text-left required"><i>(required)</i></small>
         </div>
         <!-- item -->
         <div class="form-inline form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Item:</label>
-            <input class="form-control col-sm-4 required" type="text" id="item">
-            <small class="col-sm-4 text-left required"><i>(required)</i></small>
+            <input class="form-control col-sm-4" type="text" placeholder="Required" id="item" required>
         </div>
         <!-- company -->
         <div class="form-inline form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Company:</label>
-            <input class="form-control col-sm-4 required" type="text" id="company">
-            <small class="col-sm-4 text-left required"><i>(required)</i></small>
+            <input class="form-control col-sm-4" type="text" placeholder="Required" id="company" required>
         </div>
         <!-- quantity -->
         <div class="form-inline form-group">
@@ -60,7 +56,7 @@ module.exports = $(`
         <div class="form-inline form-group form-group">
             <label class="control-label col-sm-2 col-sm-offset-2">Tags:</label>
             <div class="col-sm-4">
-                <label><input type="checkbox" name="tags" value="Certified Organic">Certified Organic</label>
+                <label><input type="checkbox" name="tags" value="Certified Organic" id="organic-tag">Certified Organic</label>
             </div>
             <p class="col-sm-4"></p>
         </div>
