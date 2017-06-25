@@ -105,24 +105,18 @@ app.get("/receipts/:id", function(req, res) {
 });
 
 // UPDATE a receipt in the database
-app.patch(`/receipts/:id`, function(request, response) {
-  var updateData = {};
-  for (var key in request.body) {
-    updateData[key] = request.body[key];
-  }
-  Receipt.findOneAndUpdate(
-    { _id: request.params.id },
-    updateData,
-    { new: true },
-    function(error, receipt) {
-      if (error) {
-        return response.status(500).json({
-          message: "Internal Error"
-        });
-      }
-      response.status(200).json(receipt);
+app.put(`/receipts/:id`, function(request, response) {
+  Receipt.findOneAndUpdate({ _id: request.params.id }, request.body, function(
+    error,
+    receipt
+  ) {
+    if (error) {
+      return response.status(500).json({
+        message: "Internal Error"
+      });
     }
-  );
+    response.status(200).json(receipt);
+  });
 });
 
 // DELETE receipt from the database
