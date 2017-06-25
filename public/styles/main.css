@@ -1,65 +1,58 @@
 nav li a:hover {
-    cursor: pointer;
-    cursor: hand;
+  cursor: pointer;
+  cursor: hand;
 }
-
 
 /* newReceiptForm: Required fields */
 
 div.input-group.col-sm-4 {
-    float: left;
-    width: 275px;
+  float: left;
+  width: 275px;
 }
 
-select#category.form-control.col-sm-4.required {
-    width: 275px;
+select#category.form-control.col-sm-4 {
+  width: 275px;
 }
 
-input#item.form-control.col-sm-4.required {
-    width: 275px;
+input#item.form-control.col-sm-4 {
+  width: 275px;
 }
 
-input#company.form-control.col-sm-4.required {
-    width: 275px;
-}
-
-small.required {
-    width: 100px;
-    padding-top: 8px;
+input#company.form-control.col-sm-4 {
+  width: 275px;
 }
 
 .invalid {
-    box-shadow: 0px 0px 25px red;
+  box-shadow: 0px 0px 25px red;
 }
-
 
 /* newReceiptForm: Optional fields */
 
 input#quantity.form-control.col-sm-4 {
-    width: 275px;
+  width: 275px;
 }
 
 input.form-control.col-sm-4 {
-    width: 275px;
+  width: 275px;
 }
 
 div.col-sm-4 {
-    text-align: left;
-    padding-left: 0px;
+  text-align: left;
+  padding-left: 0px;
 }
 
 div.col-sm-4 label {
-    padding-top: 6px;
+  padding-top: 6px;
 }
 
 /* Modal */
 
 .modal-header, h4, .close {
-    background-color: #5cb85c;
-    color:white !important;
-    text-align: center;
-    font-size: 30px;
+  background-color: #635667;
+  color: white !important;
+  text-align: center;
+  font-size: 30px;
 }
 .modal-footer {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
