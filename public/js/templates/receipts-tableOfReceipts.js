@@ -8,21 +8,23 @@ module.exports = $(`
         <thead>
             <th>Date</th>
             <th>Product</th>
-            <th>Quantity</th>
+            <th>Company</th>
+            <th>Edit/Delete</th>
         </thead>
         <tbody>
         </tbody>
     </table>
 </div>
 <div class="col-lg-12 text-center">
-    <h2>Soil & Fert.
+    <h2>Soil & Fertilizer
         <br>
     </h2>
     <table class="table table-hover table-condensed" id="soil">
         <thead>
             <th>Date</th>
             <th>Product</th>
-            <th>Quantity</th>
+            <th>Company</th>
+            <th>Edit/Delete</th>
         </thead>
         <tbody>
         </tbody>
