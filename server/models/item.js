@@ -1,15 +1,15 @@
-var mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-var receiptSchema = new mongoose.Schema({
-  category: { type: String, required: false },
-  date: { type: Date, required: false },
-  company: { type: String, required: false },
-  item: { type: String, required: false },
+const receiptSchema = new mongoose.Schema({
+  category: { type: String, required: true },
+  date: { type: Date, required: true },
+  company: { type: String, required: true },
+  item: { type: String, required: true },
   quantity: { type: Number },
   price: { type: Number },
   tags: { type: [String] }
 });
 
-var Receipt = mongoose.model('Receipt', receiptSchema);
+const Receipt = mongoose.model("Receipt", receiptSchema);
 
 module.exports = Receipt;
