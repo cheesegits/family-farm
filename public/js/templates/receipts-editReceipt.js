@@ -20,17 +20,17 @@ module.exports = $(`
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
-                        <select id="editYear"></select>
-                        <select id="editMonth"></select>
-                        <select id="editDay"></select>
+                        <select id="editYear" required></select>
+                        <select id="editMonth" required></select>
+                        <select id="editDay" required></select>
                     </div>
                     <div class="form-group">
-                        <label for="item">Item</label>
-                        <input type="text" class="form-control" id="editItem" placeholder="Required">
+                        <label for="item" required>Item</label>
+                        <input type="text" class="form-control" id="editItem" placeholder="Required" required>
                     </div>
                     <div class="form-group">
                         <label for="Company">Company</label>
-                        <input type="text" class="form-control" id="editCompany" placeholder="Required">
+                        <input type="text" class="form-control" id="editCompany" placeholder="Required" required>
                     </div>
                     <div class="form-group">
                         <label for="Quantity">Quantity</label>
