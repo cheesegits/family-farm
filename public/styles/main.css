@@ -1,4 +1,4 @@
-nav li a:hover {
+/*nav li a:hover {
   cursor: pointer;
   cursor: hand;
 }
@@ -47,7 +47,9 @@ div.col-sm-4 label {
 
 /* Modal */
 
-.modal-header, h4, .close {
+.modal-header,
+h4,
+.close {
   background-color: #635667;
   color: white !important;
   text-align: center;

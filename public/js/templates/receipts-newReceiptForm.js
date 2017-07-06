@@ -24,6 +24,7 @@ module.exports = $(`
                 <option value="">Select one</option>
                 <option value="seeds">Seeds</option>
                 <option value="soil">Soil & Fertilizer</option>
+                <option value="trees">Trees & Perrenials</option>
             </select>
         </div>
         <!-- item -->
@@ -53,20 +54,16 @@ module.exports = $(`
             <p class="col-sm-4"></p>
         </div>
         <!-- tags -->
-        <div class="form-inline form-group form-group">
-            <label class="control-label col-sm-2 col-sm-offset-2">Tags:</label>
-            <div class="col-sm-4">
-                <label><input type="checkbox" name="tags" value="Certified Organic" id="organic-tag">Certified Organic</label>
+        <div class="form-inline form-group">
+            <label class="control-label col-sm-2 col-sm-offset-2">Item tags:</label>
+            <div class="col-sm-4" id="form-tags">
+                <label><input type="checkbox" name="tags" value="Certified Organic" id="organic-tag">Certified Organic</label><br>
+                <label><input type="checkbox" name="tags" value="Certified for Organic Farming" id="organic-farming-tag">Certified for Organic Farming</label><br>
             </div>
             <p class="col-sm-4"></p>
         </div>
-        <!-- new tag -->
-        <div class="form-inline form-group">
-            <label class="control-label col-sm-2 col-sm-offset-2">New Tag:</label>
-            <input class="form-control col-sm-4">
-        </div>
-    <!-- submit -->
-    <button type="submit" class="btn btn-default btn-lg">Submit</button>
+        <!-- submit -->
+        <button type="submit" class="btn btn-default btn-lg">Submit</button>
     </form>
     <hr>
 </div>

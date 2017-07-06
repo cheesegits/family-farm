@@ -41,6 +41,7 @@ function formDate() {
     "December"
   ];
   var daysInMonth = new Date(yyyy, mm, 0).getDate();
+
   // append years
   for (var i = 10; i > 0; i--) {
     $("#years").append(`<option value="${yearList}">${yearList}</option>`);
@@ -54,7 +55,6 @@ function formDate() {
     selectToday("#months", mm, counter);
   }
   // append days
-  // additional function needed: when new month is selected, load daysInMonth and change the selected option to "Day"
   for (var i = 0; i < daysInMonth; i++) {
     var counter = i + 1;
     $("#days").append(`<option value="${counter}">${counter}</option>`);
@@ -66,7 +66,8 @@ function formDate() {
 function sortByCategory(allReceipts) {
   var receiptsByCategory = {
     seeds: [],
-    soil: []
+    soil: [],
+    trees: []
   };
   allReceipts.forEach(function(receipt) {
     receiptsByCategory[receipt.category].push(receipt);
@@ -85,7 +86,6 @@ function sortByDate(receiptsByCategory) {
   updateTable(receiptsByCategory);
 }
 
-// populate table with mock seedData
 function updateTable(receiptsByDate) {
   for (var category in receiptsByDate) {
     receiptsByDate[category].forEach(function(receipt) {
@@ -97,10 +97,10 @@ function updateTable(receiptsByDate) {
       $table_template.find("#" + category).children("tbody").append(
         `
           <tr value="${receipt._id}" class="row">
-              <td>${date}</td>
-              <td>${receipt.item}</td>
-              <td>${receipt.company}</td>
-              <td><button type="button" class="btn btn-default btn-sm editButton">Edit</button></td>
+              <td class="text-center">${date}</td>
+              <td class="text-center">${receipt.item}</td>
+              <td class="text-center">${receipt.company}</td>
+              <td class="text-center"><button type="button" class="btn btn-default btn-sm editButton">Edit</button></td>
           </tr>
         `
       );
@@ -168,7 +168,7 @@ function populateEditReceipt(receipt) {
   // append days
   for (var i = 0; i < daysInMonth; i++) {
     var counter = i + 1;
-    $("#editDay").append(`<option value="${counter}">${counter}<option>`);
+    $("#editDay").append(`<option value="${counter}">${counter}</option>`);
     selectToday("#editDay", dd, counter);
   }
   $("#editCategory").val(receipt.category);
@@ -176,32 +176,58 @@ function populateEditReceipt(receipt) {
   $("#editCompany").attr("value", receipt.company);
   $("#editQuantity").attr("value", receipt.quantity);
   $("#editPrice").attr("value", receipt.price);
-  $("#organic-tag").prop("checked");
+  for (var i = 0; i < receipt.tags.length; i++) {
+    $("#edit-tags")
+      .find(`input:checkbox[value="${receipt.tags[i]}"]`)
+      .attr("checked", "checked");
+  }
   editReceiptSubmit(receipt._id);
   deleteReceipt(receipt._id);
 }
 
+function changeDays() {
+  $("#months").change(function(event) {
+    event.preventDefault();
+    var year = $("#years").val();
+    var month = $("#months").val();
+    var daysInMonth = new Date(year, month, 0).getDate();
+    $("#days").empty();
+    $("#days").append('<option value="">Day</option>');
+    for (var i = 0; i < daysInMonth; i++) {
+      var counter = i + 1;
+      $("#days").append(`<option value="${counter}">${counter}</option>`);
+    }
+    $("#target option:first").attr("selected", "selected");
+  });
+}
+
 function editReceiptSubmit(id) {
   $.noConflict();
+  event.preventDefault();
+  var checkedBoxes = [];
   $("#editForm").submit(function(event) {
-    console.log("Edit Submit Attempted");
+    $("input:checkbox[name=tags]:checked").each(function() {
+      checkedBoxes.push($(this).val());
+    });
     $.ajax({
       url: "/receipts/" + id,
       type: "PUT",
-      data: {
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({
         date:
           $(this).find("#editYear").val() +
-            `-` +
-            $(this).find("#editMonth").val() +
-            `-` +
-            $(this).find("#editDay").val(),
+          `-` +
+          $(this).find("#editMonth").val() +
+          `-` +
+          $(this).find("#editDay").val(),
         category: $(this).find("#editCategory").val(),
         item: $(this).find("#editItem").val(),
         company: $(this).find("#editCompany").val(),
         quantity: $(this).find("#editQuantity").val(),
-        price: $(this).find("#editPrice").val()
-      },
-      dataType: "json"
+        price: $(this).find("#editPrice").val(),
+        tags: checkedBoxes
+      })
     });
   });
 }
@@ -220,30 +246,31 @@ function deleteReceipt(id) {
 function formSubmit() {
   $("#new-receipt").submit(function(event) {
     event.preventDefault();
-    // var checkboxes = [];
-    // $("input:checkbox[name=tags]:checked").each(function() {
-    //   checkboxes.push($(this).val());
-    // });
+    var checkboxes = [];
+    $("input:checkbox[name=tags]:checked").each(function() {
+      checkboxes.push($(this).val());
+    });
     $.ajax({
       url: "/receipts",
       method: "POST",
-      data: {
+      datatype: "json",
+      contentType: "application/json",
+      data: JSON.stringify({
         date:
           $(this).find("#years").val() +
-            `-` +
-            $(this).find("#months").val() +
-            `-` +
-            $(this).find("#days").val(),
+          `-` +
+          $(this).find("#months").val() +
+          `-` +
+          $(this).find("#days").val(),
         category: $(this).find("#category").val(),
         item: $(this).find("#item").val(),
         company: $(this).find("#company").val(),
         quantity: $(this).find("#quantity").val(),
-        price: $(this).find("#price").val()
-        // tags: checkboxes
-      }
+        price: $(this).find("#price").val(),
+        tags: checkboxes
+      })
     })
       .done(function(response) {
-        console.log("The POST response is ", response); // why , and not + concatenation?
         // refresh table/page
       })
       .fail(function(error) {
@@ -268,6 +295,7 @@ function getReceipts() {
 
 $(function() {
   formDate();
+  changeDays();
   getReceipts();
   editReceipt();
   formSubmit();

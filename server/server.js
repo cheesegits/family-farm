@@ -54,13 +54,11 @@ if (require.main === module) {
 }
 
 // retrieve schema
-var Receipt = require(`./models/item`);
+const Receipt = require("./models/item");
 
 // CRUD operations
 // CREATE a new receipt in the database
 app.post(`/receipts`, function(req, res) {
-  console.log("Request body:");
-  console.log(req.body);
   const newReceipt = {
     category: req.body.category,
     date: req.body.date,
@@ -70,12 +68,13 @@ app.post(`/receipts`, function(req, res) {
     price: req.body.price,
     tags: req.body.tags
   };
-  console.log("The newReceipt is: " + newReceipt);
-  Receipt.create(newReceipt, function(error, receipt) {
-    if (error) {
-      return res.status(500).json(error);
+  var receipt = new Receipt(newReceipt);
+  receipt.save(function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(201).json(receipt);
     }
-    res.status(201).json(receipt);
   });
 });
 
@@ -105,17 +104,17 @@ app.get("/receipts/:id", function(req, res) {
 });
 
 // UPDATE a receipt in the database
-app.put(`/receipts/:id`, function(request, response) {
-  Receipt.findOneAndUpdate({ _id: request.params.id }, request.body, function(
-    error,
+app.put(`/receipts/:id`, function(req, res) {
+  Receipt.findOneAndUpdate({ _id: req.params.id }, req.body, function(
+    err,
     receipt
   ) {
-    if (error) {
-      return response.status(500).json({
+    if (err) {
+      return res.status(500).json({
         message: "Internal Error"
       });
     }
-    response.status(200).json(receipt);
+    res.status(200).json(receipt);
   });
 });
 

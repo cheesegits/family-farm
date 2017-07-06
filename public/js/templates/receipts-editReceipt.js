@@ -16,6 +16,7 @@ module.exports = $(`
                         <select name="" id="editCategory">
                             <option value="seeds">Seeds</option>
                             <option value="soil">Soil & Fertilizer</option>
+                            <option value="trees">Trees & Perrenials</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -40,8 +41,9 @@ module.exports = $(`
                         <label for="Price">Price</label>
                         <input type="text" class="form-control" id="editPrice" placeholder="Optional price">
                     </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="organic">Organic</label>
+                    <div class="checkbox" id="edit-tags">
+                        <label><input type="checkbox" name="tags" value="Certified Organic">Certified Organic</label><br>
+                        <label><input type="checkbox" name="tags" value="Certified for Organic Farming">Certified for Organic Farming</label>
                     </div>
                     <button type="submit" class="btn btn-success btn-block" id="editSubmit">Submit</button>
                 </form>
