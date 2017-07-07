@@ -105,17 +105,20 @@ app.get("/receipts/:id", function(req, res) {
 
 // UPDATE a receipt in the database
 app.put(`/receipts/:id`, function(req, res) {
-  Receipt.findOneAndUpdate({ _id: req.params.id }, req.body, function(
-    err,
-    receipt
-  ) {
-    if (err) {
-      return res.status(500).json({
-        message: "Internal Error"
-      });
+  console.log(req.body);
+  Receipt.findOneAndUpdate(
+    { _id: req.params.id },
+    req.body,
+    { new: true },
+    function(err, receipt) {
+      if (err) {
+        return res.status(500).json({
+          message: "Internal Error"
+        });
+      }
+      res.status(200).json(receipt);
     }
-    res.status(200).json(receipt);
-  });
+  );
 });
 
 // DELETE receipt from the database

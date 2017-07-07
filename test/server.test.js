@@ -207,7 +207,7 @@ describe(`Receipts`, function() {
         expect(response.status).to.equal(200);
         expect(response).to.be.json;
         expect(response.body._id).to.equal(postId);
-        expect(response.body.quantity).to.equal(54321);
+        expect(response.body.price).to.equal(54321);
         done();
       });
   });
@@ -217,11 +217,12 @@ describe(`Receipts`, function() {
       .delete(`/receipts/` + postId)
       .send()
       .end(function(error, response) {
+        console.log(response.body);
         expect(error).to.be.null;
         expect(response.status).to.equal(200);
         expect(response).to.be.json;
         expect(response.body._id).to.equal(postId);
-        expect(response.body.quantity).to.equal(54321);
+        expect(response.body.price).to.equal(54321);
         done();
       });
   });
