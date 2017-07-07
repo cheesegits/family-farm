@@ -217,7 +217,6 @@ describe(`Receipts`, function() {
       .delete(`/receipts/` + postId)
       .send()
       .end(function(error, response) {
-        console.log(response.body);
         expect(error).to.be.null;
         expect(response.status).to.equal(200);
         expect(response).to.be.json;

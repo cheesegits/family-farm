@@ -105,7 +105,6 @@ app.get("/receipts/:id", function(req, res) {
 
 // UPDATE a receipt in the database
 app.put(`/receipts/:id`, function(req, res) {
-  console.log(req.body);
   Receipt.findOneAndUpdate(
     { _id: req.params.id },
     req.body,
