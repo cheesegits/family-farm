@@ -1,5 +1,6 @@
 language: node_js
-node_js: node
+node_js:
+- "7"
 services:
 - mongodb
 addons:
@@ -8,7 +9,3 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
-deploy:
-  - provider: heroku
-    api_key:
-      secure: CC9tonMAxip28zt5HRaC4Cg4TUNnU21/7hfUZzaZRrvICO5GzOXTGFE4Dx1jngAOThdFdwArbSpYgHZ/rLU2elcYRQwJks1ewiwznifAi6+YEXWHQiNR0aMgm/5evLydY7YBqUH0I0QrjNs40o66C6s5jR6dWoZQu0WExcLQS+XtcwkPvk7ZrWq9aN2THqnNLMj1rpHocimjSlxt/3TPtKwxAmHA/aKX5e8eZbqT90hSi7XuAtNiIT6hMWUW3uDYMq3qw0CBBcerA35IjXME/Gs67CehuCV13i0Z2Bh3HnbyFYV7TtIZfGIRiFtTRHDozp29pVZYjECvz4W9PzmS03St9BENpntifM49yFYoKNI4s/5GtYNB+Ths0FItlfxbMXVOp6fGjHMN22vsGUgKm+T4rLdYsEKNw1rp89OwahraCpcB3j3YtnqczVI1RtNY7JnYP7uwmDtLWzJiSwZ+BIQqIqsoqZlDVVIebNIZZ1/6BF4oX643omB7mIPmSvA2ofkynpHGVPrFRyBhAojgHurACrmX/FtqXidBzLqEd7K0ZFKGWE/gdPnVdZIn9jh53zzhM61SEsfybtbz9nN26T0eXvB1KXklpdtXazr5J4/ZmiXalNFmILJcJNRwmlFcwSDvMpzUhJOkqA3Zz57EHvZ1pYmpQgbZL9ErB8DQkTk=
