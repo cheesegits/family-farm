@@ -1,6 +1,5 @@
 #ignore folders
 .vscode/
-public/dist/
 node_modules/
 
 #ignore files
