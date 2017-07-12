@@ -10613,11 +10613,12 @@ function formSubmit() {
       })
     })
       .done(function(response) {
-        // refresh table/page
+        getReceipts();
       })
       .fail(function(error) {
         console.log(error);
       });
+    this.reset();
   });
 }
 
@@ -10628,6 +10629,9 @@ function getReceipts() {
     dataType: "json"
   })
     .done(function(response) {
+      $("#seeds tbody").children().empty();
+      $("#trees tbody").children().empty();
+      $("#soil tbody").children().empty();
       sortByCategory(response);
     })
     .fail(function(error) {
